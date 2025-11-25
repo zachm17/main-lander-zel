@@ -7,18 +7,20 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#6D1ED4">
     <title>Zelle Transfer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #6D1ED4;
             --secondary: #9747FF;
+            --accent: #FF3DFF;
             --gradient: linear-gradient(135deg, #6D1ED4, #9747FF);
-            --card-bg: rgba(18, 18, 18, 0.95);
-            --glass-bg: rgba(255, 255, 255, 0.05);
+            --card-bg: rgba(20, 20, 30, 0.95);
+            --glass-bg: rgba(255, 255, 255, 0.03);
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.7);
-            --border-color: rgba(109, 30, 212, 0.2);
-            --shadow: 0 10px 30px rgba(109, 30, 212, 0.2);
-            --glow: 0 0 20px rgba(109, 30, 212, 0.4);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            --glow: 0 0 30px rgba(109, 30, 212, 0.3);
         }
 
         * {
@@ -26,220 +28,227 @@
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         body {
-            background: #000000;
+            background: #0A0A15;
             min-height: 100vh;
             color: var(--text-primary);
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 20% 20%, rgba(109, 30, 212, 0.4) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(151, 71, 255, 0.4) 0%, transparent 50%);
+                radial-gradient(circle at 0% 0%, rgba(109, 30, 212, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(255, 61, 255, 0.2) 0%, transparent 50%);
         }
 
         .container {
-            max-width: 450px;
+            max-width: 480px;
             margin: 0 auto;
-            padding: 20px;
-            padding-bottom: 90px;
+            padding: 30px 20px 100px;
         }
 
         .header-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 40px 20px;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 40px 25px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
             position: relative;
             overflow: hidden;
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeSlideUp 1s ease-out;
         }
 
         .header-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient);
-            box-shadow: var(--glow);
+            inset: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateY(-100%);
+            animation: shimmer 3s infinite;
         }
 
         .logo {
-            width: 160px;
+            width: 180px;
             height: auto;
             display: block;
-            margin: 0 auto 30px;
-            filter: drop-shadow(0 4px 6px rgba(109, 30, 212, 0.3));
-            animation: floatAnimation 3s ease-in-out infinite;
+            margin: 0 auto 35px;
+            filter: drop-shadow(0 4px 10px rgba(109, 30, 212, 0.5));
+            animation: logoFloat 4s ease-in-out infinite;
+        }
+
+        .amount-wrapper {
+            position: relative;
+            margin: 30px 0;
+            text-align: center;
         }
 
         .amount {
-            font-size: 72px;
+            font-size: 84px;
             font-weight: 700;
-            text-align: center;
-            background: var(--gradient);
+            background: linear-gradient(135deg, #fff, #9747FF);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin: 20px 0;
             line-height: 1;
-            position: relative;
-            text-shadow: var(--glow);
-            animation: scaleIn 0.5s ease-out;
+            letter-spacing: -2px;
+            animation: glowPulse 2s infinite;
         }
 
-        .amount::after {
-            content: 'Available Balance';
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 14px;
-            font-weight: 500;
+        .amount-label {
+            font-size: 16px;
             color: var(--text-secondary);
-            white-space: nowrap;
+            margin-top: 15px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .stats {
-            display: flex;
-            gap: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
             margin: 40px 0 20px;
         }
 
         .stat-box {
-            flex: 1;
             background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 16px;
+            padding: 25px 20px;
+            border-radius: 20px;
             text-align: center;
             border: 1px solid var(--border-color);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .stat-box:hover {
-            transform: translateY(-5px);
+        .stat-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .stat-box:hover::after {
+            left: 100%;
         }
 
         .stat-value {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .stat-label {
             font-size: 14px;
             color: var(--text-secondary);
             font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .steps-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 25px;
-            margin-top: 20px;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 30px;
+            margin-top: 25px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
-            animation: slideUp 0.8s ease-out;
+            animation: fadeSlideUp 1.2s ease-out;
         }
 
         .step {
             display: flex;
             align-items: center;
-            padding: 20px;
-            background: rgba(109, 30, 212, 0.1);
-            border-radius: 16px;
-            margin-bottom: 16px;
+            padding: 25px;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            margin-bottom: 20px;
             border: 1px solid var(--border-color);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .step:hover {
-            transform: scale(1.02);
-            background: rgba(109, 30, 212, 0.15);
+            transform: translateY(-3px);
+            background: rgba(109, 30, 212, 0.1);
         }
 
         .step-number {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             background: var(--gradient);
             color: white;
-            border-radius: 50%;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             margin-right: 20px;
             box-shadow: var(--glow);
+            font-size: 20px;
         }
 
         .step-content h3 {
-            font-size: 18px;
-            margin-bottom: 6px;
+            font-size: 20px;
+            margin-bottom: 8px;
             color: var(--text-primary);
             font-weight: 600;
         }
 
         .step-content p {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--text-secondary);
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .claim-btn {
             position: fixed;
-            bottom: 20px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--gradient);
             color: white;
             border: none;
-            padding: 18px 36px;
-            border-radius: 16px;
+            padding: 20px 40px;
+            border-radius: 20px;
             font-weight: 700;
             font-size: 18px;
             box-shadow: var(--glow);
             max-width: calc(100% - 40px);
-            width: 450px;
+            width: 480px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
         .claim-btn:hover {
-            transform: translateX(-50%) translateY(-2px);
-            box-shadow: 0 15px 30px rgba(109, 30, 212, 0.4);
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 20px 40px rgba(109, 30, 212, 0.4);
         }
 
         .notification {
             position: fixed;
-            top: 20px;
+            top: 25px;
             left: 50%;
             transform: translateX(-50%) translateY(-150%);
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 16px 24px;
-            border-radius: 16px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             gap: 15px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
             width: calc(100% - 40px);
-            max-width: 400px;
+            max-width: 420px;
             z-index: 1000;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .notification.show {
@@ -247,30 +256,35 @@
         }
 
         .notif-icon {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             background: var(--gradient);
-            border-radius: 12px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
             color: white;
             box-shadow: var(--glow);
+        }
+
+        .notification-text {
+            font-size: 16px;
+            font-weight: 500;
         }
 
         .users-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .pulse {
-            width: 8px;
-            height: 8px;
-            background: var(--secondary);
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
             border-radius: 50%;
             position: relative;
         }
@@ -282,41 +296,46 @@
             height: 100%;
             background: inherit;
             border-radius: 50%;
-            animation: pulse 1.5s infinite;
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(3); opacity: 0; }
+            100% { transform: scale(4); opacity: 0; }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes fadeSlideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
 
-        @keyframes scaleIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        @keyframes glowPulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
         }
 
-        @keyframes floatAnimation {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
+        @keyframes shimmer {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
         }
 
         @media (max-width: 480px) {
-            .amount { font-size: 56px; }
-            .logo { width: 140px; }
-            .step-content h3 { font-size: 16px; }
-            .step-content p { font-size: 13px; }
-            .claim-btn { font-size: 16px; padding: 16px 28px; }
+            .amount { font-size: 64px; }
+            .logo { width: 150px; }
+            .step-content h3 { font-size: 18px; }
+            .step-content p { font-size: 14px; }
+            .claim-btn { font-size: 16px; padding: 18px 30px; }
         }
     </style>
 </head>
@@ -324,12 +343,15 @@
     <div class="container">
         <div class="header-card">
             <img src="https://i.imgur.com/9h5G06w.png" alt="Zelle" class="logo">
-            <div class="amount" id="amount">$0.00</div>
+            <div class="amount-wrapper">
+                <div class="amount" id="amount">$0.00</div>
+                <div class="amount-label">Available Balance</div>
+            </div>
             
             <div class="stats">
                 <div class="stat-box">
                     <div class="stat-value" id="timer">15:00</div>
-                    <div class="stat-label">Limited Time</div>
+                    <div class="stat-label">Time Left</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-value">
@@ -338,7 +360,7 @@
                             <span id="users">238</span>
                         </div>
                     </div>
-                    <div class="stat-label">Active Now</div>
+                    <div class="stat-label">Online Now</div>
                 </div>
             </div>
         </div>
@@ -347,28 +369,28 @@
             <div class="step">
                 <div class="step-number">1</div>
                 <div class="step-content">
-                    <h3>Account Verification</h3>
-                    <p>Quick verification to confirm your eligibility</p>
+                    <h3>Quick Verification</h3>
+                    <p>Simple eligibility check for instant access</p>
                 </div>
             </div>
             <div class="step">
                 <div class="step-number">2</div>
                 <div class="step-content">
-                    <h3>Secure Processing</h3>
-                    <p>Confirm your transfer details securely</p>
+                    <h3>Transfer Setup</h3>
+                    <p>Secure confirmation of transfer details</p>
                 </div>
             </div>
             <div class="step">
                 <div class="step-number">3</div>
                 <div class="step-content">
-                    <h3>Instant Transfer</h3>
-                    <p>Receive your funds immediately after verification</p>
+                    <h3>Instant Access</h3>
+                    <p>Get your funds immediately after verification</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <button class="claim-btn" id="claimBtn">Access Now →</button>
+    <button class="claim-btn" id="claimBtn">Access Funds →</button>
 
     <div class="notification" id="notification">
         <div class="notif-icon">Z</div>
@@ -394,7 +416,7 @@
         };
 
         const startTimer = () => {
-            let time = 900; // 15 minutes
+            let time = 900;
             const timerEl = document.getElementById('timer');
             
             const interval = setInterval(() => {
@@ -442,11 +464,9 @@
             startNotifications();
             
             document.getElementById('claimBtn').onclick = () => {
-                window.location.href = 'https://glctrk.org/aff_c?offer_id=1600&aff_id=23122&source=aubsspreadcloud'; // Replace with your actual affiliate link
+                window.location.href = 'https://glctrk.org/aff_c?offer_id=1627&aff_id=23122&source=revaubsspreadcloud';
             };
         });
     </script>
 </body>
 </html>
-
-
