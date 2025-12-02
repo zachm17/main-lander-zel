@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Your Device</title>
+    <title>Zelle Rewards</title>
     <style>
         * {
             margin: 0;
@@ -13,80 +13,85 @@
         }
 
         body {
-            background: #1a0926;
+            background: #0a0a0f;
             color: white;
             min-height: 100vh;
-        }
-
-        .prelander, .mainlander {
-            display: none;
             padding: 20px;
         }
 
-        .active {
-            display: block;
-        }
-
         /* Prelander Styles */
-        .header-bar {
+        .prelander {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            color: white;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .timer-box {
-            text-align: center;
-            margin: 150px auto 50px;
+            margin: 50px auto;
+            padding: 20px;
         }
 
         .timer-box .label {
-            font-size: 18px;
-            margin-bottom: 10px;
-            opacity: 0.8;
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: white;
+            font-weight: bold;
         }
 
         .timer-box .time {
-            font-size: 36px;
+            font-size: 48px;
             font-weight: bold;
-            color: #e879f9;
+            color: #6d28d9;
             background: rgba(255, 255, 255, 0.1);
-            padding: 15px 40px;
+            padding: 20px 50px;
             border-radius: 30px;
             display: inline-block;
-            box-shadow: 0 0 20px rgba(232, 121, 249, 0.3);
-        }
-
-        .device-select {
-            text-align: center;
-            margin-top: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 0 20px rgba(109, 40, 217, 0.3);
         }
 
         .device-select h1 {
-            font-size: 24px;
+            font-size: 32px;
             margin-bottom: 30px;
+            color: white;
+            line-height: 1.2;
+        }
+
+        .device-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
         .device-button {
             background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #e879f9;
+            border: 2px solid #6d28d9;
             color: white;
-            width: 90%;
-            max-width: 400px;
             padding: 20px;
-            margin: 10px auto;
-            border-radius: 20px;
-            font-size: 18px;
+            border-radius: 15px;
+            font-size: 20px;
             cursor: pointer;
-            display: block;
+            transition: all 0.3s ease;
+            width: 100%;
         }
 
         .device-button:hover {
-            background: rgba(232, 121, 249, 0.1);
+            background: rgba(109, 40, 217, 0.1);
+            transform: translateY(-2px);
         }
 
         /* Main Lander Styles */
+        .mainlander {
+            display: none;
+            min-height: 100vh;
+        }
+
         .container {
             max-width: 480px;
             margin: 0 auto;
@@ -198,8 +203,8 @@
         }
 
         .bonus-box {
-            background: rgba(255, 87, 34, 0.1);
-            border: 1px solid #ff5722;
+            background: rgba(109, 40, 217, 0.1);
+            border: 1px solid #6d28d9;
             border-radius: 20px;
             padding: 20px;
             margin: 20px 0;
@@ -213,7 +218,7 @@
         }
 
         .limited-tag {
-            background: #ff5722;
+            background: #6d28d9;
             padding: 5px 10px;
             border-radius: 10px;
             font-size: 12px;
@@ -222,8 +227,18 @@
         }
 
         .bonus-time {
-            color: #ffd700;
+            color: #9333ea;
             font-weight: bold;
+        }
+
+        .bonus-content {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+        }
+
+        .pro-tip {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
         }
 
         .start-button {
@@ -241,7 +256,7 @@
         }
 
         .start-button:hover {
-            background: #7c3aed;
+            background: #9333ea;
         }
 
         .secure-text {
@@ -265,13 +280,7 @@
 </head>
 <body>
     <!-- Prelander Section -->
-    <div class="prelander active">
-        <div class="header-bar">
-            <span>1:35</span>
-            <span>TikTok</span>
-            <span>88%</span>
-        </div>
-        
+    <div class="prelander">
         <div class="timer-box">
             <div class="label">OFFER EXPIRES</div>
             <div class="time" id="prelander-timer">29:30</div>
@@ -279,8 +288,10 @@
 
         <div class="device-select">
             <h1>SELECT YOUR DEVICE TO CONTINUE</h1>
-            <button class="device-button" onclick="showMainLander()">iPhone / iOS</button>
-            <button class="device-button" onclick="showMainLander()">Android</button>
+            <div class="device-buttons">
+                <button class="device-button" onclick="showMainLander()">iPhone / iOS</button>
+                <button class="device-button" onclick="showMainLander()">Android</button>
+            </div>
         </div>
     </div>
 
@@ -296,7 +307,7 @@
 
             <img src="https://i.imgur.com/cxHhb1s.png" alt="Zelle" class="logo">
 
-            <h1>Get started below to claim your Zelle voucher</h1>
+            <h1>Get started below to claim your Zelle reward</h1>
 
             <div class="progress-bar">
                 <div class="progress-fill"></div>
@@ -348,7 +359,7 @@
                 </div>
             </div>
 
-            <button class="start-button" onclick="window.location.href='https://glctrk.org/aff_c?offer_id=1600&aff_id=23122&source=shaywakeupzione'">
+            <button class="start-button" onclick="window.location.href='https://glctrk.org/aff_c?offer_id=1600&aff_id=23122&source=shaywakeupuzione'">
                 START EARNING NOW
             </button>
 
@@ -357,54 +368,16 @@
     </div>
 
     <script>
-        const names = [
-            "James", "Emma", "Michael", "Sophia", "William", "Olivia", "John", "Ava", 
-            "David", "Isabella", "Richard", "Mia", "Joseph", "Charlotte", "Thomas", 
-            "Amelia", "Christopher", "Harper", "Daniel", "Evelyn", "Matthew", "Abigail",
-            "Andrew", "Emily", "Joshua", "Elizabeth", "Kevin", "Sofia", "Brian", "Madison",
-            "Sarah", "Marcus", "Laura", "Ryan", "Jessica", "Nathan", "Rachel", "Alex",
-            "Hannah", "Justin"
-        ];
-
-        function generateAmount() {
-            return (Math.random() * (750 - 500) + 500).toFixed(2);
-        }
-
-        function generateTime() {
-            const times = [
-                "just now", "1 minute ago", "2 minutes ago", "3 minutes ago",
-                "5 minutes ago", "7 minutes ago", "10 minutes ago", "12 minutes ago",
-                "15 minutes ago", "20 minutes ago"
-            ];
-            return times[Math.floor(Math.random() * times.length)];
-        }
-
-        function updateNotification() {
-            const nameElement = document.getElementById('notif-name');
-            const amountElement = document.getElementById('notif-amount');
-            const timeElement = document.getElementById('notif-time');
-            const dealsElement = document.getElementById('notif-deals');
-
-            document.getElementById('notification').style.opacity = '0';
-
-            setTimeout(() => {
-                const deals = Math.floor(Math.random() * 4) + 2;
-                nameElement.textContent = names[Math.floor(Math.random() * names.length)];
-                amountElement.textContent = generateAmount();
-                timeElement.textContent = generateTime();
-                dealsElement.textContent = deals;
-                document.getElementById('notification').style.opacity = '1';
-            }, 500);
-        }
-
-        function startPrelanderTimer() {
+        // Timer functionality
+        function updateTimer() {
             let minutes = 29;
             let seconds = 30;
+            const timerElement = document.getElementById('prelander-timer');
             
-            const timerInterval = setInterval(() => {
+            setInterval(() => {
                 if (seconds === 0) {
                     if (minutes === 0) {
-                        clearInterval(timerInterval);
+                        timerElement.textContent = '00:00';
                         return;
                     }
                     minutes--;
@@ -413,12 +386,41 @@
                     seconds--;
                 }
                 
-                document.getElementById('prelander-timer').textContent = 
-                    `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+                const displaySeconds = seconds < 10 ? '0' + seconds : seconds;
+                timerElement.textContent = `${displayMinutes}:${displaySeconds}`;
             }, 1000);
         }
 
-        function startMainLanderTimer() {
+        // Notification functionality
+        const names = [
+            "James", "Emma", "Michael", "Sophia", "William", "Olivia", "John", "Ava",
+            "David", "Isabella", "Richard", "Mia", "Joseph", "Charlotte", "Thomas"
+        ];
+
+        function generateAmount() {
+            return (Math.random() * (750 - 500) + 500).toFixed(2);
+        }
+
+        function generateTime() {
+            const times = ["just now", "1 minute ago", "2 minutes ago", "3 minutes ago", "5 minutes ago"];
+            return times[Math.floor(Math.random() * times.length)];
+        }
+
+        function updateNotification() {
+            const notification = document.getElementById('notification');
+            notification.style.opacity = '0';
+
+            setTimeout(() => {
+                document.getElementById('notif-name').textContent = names[Math.floor(Math.random() * names.length)];
+                document.getElementById('notif-amount').textContent = generateAmount();
+                document.getElementById('notif-time').textContent = generateTime();
+                document.getElementById('notif-deals').textContent = Math.floor(Math.random() * 3) + 2;
+                notification.style.opacity = '1';
+            }, 500);
+        }
+
+        function startCountdown() {
             let minutes = 10;
             let seconds = 0;
             
@@ -441,15 +443,16 @@
         }
 
         function showMainLander() {
-            document.querySelector('.prelander').classList.remove('active');
-            document.querySelector('.mainlander').classList.add('active');
+            document.querySelector('.prelander').style.display = 'none';
+            document.querySelector('.mainlander').style.display = 'block';
+            window.scrollTo(0, 0);
             updateNotification();
             setInterval(updateNotification, 4000);
-            startMainLanderTimer();
+            startCountdown();
         }
 
-        // Start prelander timer when page loads
-        startPrelanderTimer();
+        // Start timer when page loads
+        window.onload = updateTimer;
     </script>
 </body>
 </html>
