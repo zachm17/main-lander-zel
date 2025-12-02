@@ -1,184 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zelle Credit</title>
+    <title>Select Your Device</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
             background: #1a0926;
             color: white;
             min-height: 100vh;
+        }
+
+        .prelander, .mainlander {
+            display: none;
             padding: 20px;
         }
 
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            text-align: center;
+        .active {
+            display: block;
         }
 
-        .timer-container {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            padding: 15px 30px;
-            margin: 20px auto;
-            display: inline-block;
-        }
-
-        .timer-text {
-            color: #a855f7;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        h1 {
-            font-size: 36px;
-            margin: 30px 0;
-            line-height: 1.2;
-        }
-
-        .highlight {
-            color: #a855f7;
-        }
-
-        .subtitle {
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 40px;
-        }
-
-        .claim-button {
-            background: #a855f7;
+        /* Prelander Styles */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
             color: white;
-            border: none;
-            padding: 20px 40px;
-            border-radius: 50px;
-            font-size: 20px;
+        }
+
+        .timer-box {
+            text-align: center;
+            margin: 150px auto 50px;
+        }
+
+        .timer-box .label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .timer-box .time {
+            font-size: 36px;
             font-weight: bold;
-            margin: 30px 0;
-            width: 100%;
-            max-width: 300px;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
-            transition: all 0.3s ease;
+            color: #e879f9;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 40px;
+            border-radius: 30px;
+            display: inline-block;
+            box-shadow: 0 0 20px rgba(232, 121, 249, 0.3);
         }
 
-        .claim-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
+        .device-select {
+            text-align: center;
+            margin-top: 40px;
         }
 
-        .steps-container {
-            margin-top: 50px;
-        }
-
-        h2 {
-            font-size: 28px;
+        .device-select h1 {
+            font-size: 24px;
             margin-bottom: 30px;
         }
 
-        .step {
-            background: rgba(255, 255, 255, 0.05);
+        .device-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #e879f9;
+            color: white;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            margin: 10px auto;
             border-radius: 20px;
-            padding: 25px;
-            margin: 15px 0;
-            text-align: center;
-            position: relative;
+            font-size: 18px;
+            cursor: pointer;
+            display: block;
         }
 
-        .step-number {
-            background: #a855f7;
-            width: 40px;
-            height: 40px;
+        .device-button:hover {
+            background: rgba(232, 121, 249, 0.1);
+        }
+
+        /* Main Lander Styles */
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .notification {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: opacity 0.5s ease;
+        }
+
+        .notification .money {
+            font-size: 20px;
+        }
+
+        .notification .earned {
+            color: #6d28d9;
+        }
+
+        .notification .time {
+            margin-left: auto;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #6d28d9, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 80%;
+            height: 100%;
+            background: #6d28d9;
+            border-radius: 15px;
+        }
+
+        .progress-amount {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+        }
+
+        .steps {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .step:last-child {
+            border-bottom: none;
+        }
+
+        .step-check {
+            width: 24px;
+            height: 24px;
+            background: #6d28d9;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            margin-bottom: 5px;
+        }
+
+        .step-content p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .bonus-box {
+            background: rgba(255, 87, 34, 0.1);
+            border: 1px solid #ff5722;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .bonus-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .limited-tag {
+            background: #ff5722;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 12px;
             font-weight: bold;
-            font-size: 20px;
-            margin: 0 auto 15px;
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+            margin-left: auto;
         }
 
-        .step-title {
-            font-size: 20px;
+        .bonus-time {
+            color: #ffd700;
             font-weight: bold;
-            margin-bottom: 10px;
         }
 
-        .step-description {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 16px;
+        .start-button {
+            background: #6d28d9;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .footer {
-            margin-top: 50px;
+        .start-button:hover {
+            background: #7c3aed;
+        }
+
+        .secure-text {
+            text-align: center;
             color: rgba(255, 255, 255, 0.5);
             font-size: 14px;
         }
 
-        @keyframes glow {
-            0% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.4); }
-            50% { box-shadow: 0 0 30px rgba(168, 85, 247, 0.6); }
-            100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.4); }
+        @media (max-width: 480px) {
+            .notification {
+                flex-wrap: wrap;
+            }
+            
+            .notification .time {
+                margin-left: 0;
+                width: 100%;
+                text-align: right;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="timer-container">
-            <div class="timer-text">OFFER EXPIRES</div>
-            <div class="timer-text" id="timer">29:29</div>
+    <!-- Prelander Section -->
+    <div class="prelander active">
+        <div class="header-bar">
+            <span>1:35</span>
+            <span>TikTok</span>
+            <span>88%</span>
+        </div>
+        
+        <div class="timer-box">
+            <div class="label">OFFER EXPIRES</div>
+            <div class="time" id="prelander-timer">29:30</div>
         </div>
 
-        <h1>Get Your <span class="highlight">Zelle Credit</span></h1>
-        <div class="subtitle">Earn money by completing deals.</div>
-
-        <button class="claim-button" onclick="window.location.href='https://glctrk.org/aff_c?offer_id=1600&aff_id=23122&source=shayhospbreadone'">
-            Claim Yours Now
-        </button>
-
-        <div class="steps-container">
-            <h2>Three Simple Steps:</h2>
-            <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-title">Click "Claim Yours Button"</div>
-                <div class="step-description">Start by clicking the Claim Yours button.</div>
-            </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-title">Complete Deals</div>
-                <div class="step-description">Enter your basic info and complete 3-5 deals to get your reward!</div>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-title">Claim Rewards</div>
-                <div class="step-description">Claim your Zelle credits and repeat anytime!</div>
-            </div>
+        <div class="device-select">
+            <h1>SELECT YOUR DEVICE TO CONTINUE</h1>
+            <button class="device-button" onclick="showMainLander()">iPhone / iOS</button>
+            <button class="device-button" onclick="showMainLander()">Android</button>
         </div>
+    </div>
 
-        <button class="claim-button" onclick="window.location.href='https://glctrk.org/aff_c?offer_id=1600&aff_id=23122&source=shayhospbreadone'">
-            Claim Yours Now
-        </button>
+    <!-- Main Lander Section -->
+    <div class="mainlander">
+        <div class="container">
+            <div class="notification" id="notification">
+                <span class="money">💰</span>
+                <span><span id="notif-name"></span> completed <span id="notif-deals"></span> deals and</span>
+                <span class="earned">earned $<span id="notif-amount"></span></span>
+                <span class="time">· <span id="notif-time"></span></span>
+            </div>
 
-        <div class="footer">
-            © 2025 Zelle Rewards Program. All rights reserved.
+            <img src="https://i.imgur.com/cxHhb1s.png" alt="Zelle" class="logo">
+
+            <h1>Get started below to claim your Zelle voucher</h1>
+
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+                <div class="progress-amount">$750</div>
+            </div>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-check">✓</div>
+                    <div class="step-content">
+                        <h3>Click on "Start Earning Now"</h3>
+                        <p>(The button below)</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-check">✓</div>
+                    <div class="step-content">
+                        <h3>Provide a valid email address</h3>
+                        <p>(For notifications and rewards)</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-check">✓</div>
+                    <div class="step-content">
+                        <h3>Complete at least 2-5 suggested deals</h3>
+                        <p>Most people get $500+ in Zelle deposits completing just a few deals!</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-check">✓</div>
+                    <div class="step-content">
+                        <h3>Claim your deposit & repeat anytime</h3>
+                        <p>Many top users complete multiple deals for bonus payouts</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bonus-box">
+                <div class="bonus-header">
+                    <span>⏰</span>
+                    <span class="bonus-time">Exclusive offer expires in <span id="countdown">10:00</span></span>
+                    <span class="limited-tag">🔥 LIMITED TIME</span>
+                </div>
+                <div class="bonus-content">
+                    🎯 First Day Bonus! Complete any 2-5 suggested deals in your first 24 hours and unlock up to a $300 Bonus!
+                </div>
+                <div class="pro-tip">
+                    💡 Pro strategy: Focus on beginner-friendly deals first. Most new players hit $250+ in their first day by completing suggested offers. Play daily to keep your streaks going to earn even more!
+                </div>
+            </div>
+
+            <button class="start-button" onclick="window.location.href='https://glctrk.org/aff_c?offer_id=1600&aff_id=23122&source=shaywakeupzione'">
+                START EARNING NOW
+            </button>
+
+            <div class="secure-text">🔒 Secure & Confidential</div>
         </div>
     </div>
 
     <script>
-        // Timer functionality
-        function startTimer() {
+        const names = [
+            "James", "Emma", "Michael", "Sophia", "William", "Olivia", "John", "Ava", 
+            "David", "Isabella", "Richard", "Mia", "Joseph", "Charlotte", "Thomas", 
+            "Amelia", "Christopher", "Harper", "Daniel", "Evelyn", "Matthew", "Abigail",
+            "Andrew", "Emily", "Joshua", "Elizabeth", "Kevin", "Sofia", "Brian", "Madison",
+            "Sarah", "Marcus", "Laura", "Ryan", "Jessica", "Nathan", "Rachel", "Alex",
+            "Hannah", "Justin"
+        ];
+
+        function generateAmount() {
+            return (Math.random() * (750 - 500) + 500).toFixed(2);
+        }
+
+        function generateTime() {
+            const times = [
+                "just now", "1 minute ago", "2 minutes ago", "3 minutes ago",
+                "5 minutes ago", "7 minutes ago", "10 minutes ago", "12 minutes ago",
+                "15 minutes ago", "20 minutes ago"
+            ];
+            return times[Math.floor(Math.random() * times.length)];
+        }
+
+        function updateNotification() {
+            const nameElement = document.getElementById('notif-name');
+            const amountElement = document.getElementById('notif-amount');
+            const timeElement = document.getElementById('notif-time');
+            const dealsElement = document.getElementById('notif-deals');
+
+            document.getElementById('notification').style.opacity = '0';
+
+            setTimeout(() => {
+                const deals = Math.floor(Math.random() * 4) + 2;
+                nameElement.textContent = names[Math.floor(Math.random() * names.length)];
+                amountElement.textContent = generateAmount();
+                timeElement.textContent = generateTime();
+                dealsElement.textContent = deals;
+                document.getElementById('notification').style.opacity = '1';
+            }, 500);
+        }
+
+        function startPrelanderTimer() {
             let minutes = 29;
-            let seconds = 29;
-           
+            let seconds = 30;
+            
             const timerInterval = setInterval(() => {
                 if (seconds === 0) {
                     if (minutes === 0) {
@@ -190,19 +412,44 @@
                 } else {
                     seconds--;
                 }
-               
-                document.getElementById('timer').textContent =
+                
+                document.getElementById('prelander-timer').textContent = 
                     `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
             }, 1000);
         }
 
-        // Start timer when page loads
-        startTimer();
+        function startMainLanderTimer() {
+            let minutes = 10;
+            let seconds = 0;
+            
+            const countdownElement = document.getElementById('countdown');
+            
+            const timer = setInterval(() => {
+                if (seconds === 0) {
+                    if (minutes === 0) {
+                        clearInterval(timer);
+                        return;
+                    }
+                    minutes--;
+                    seconds = 59;
+                } else {
+                    seconds--;
+                }
+                
+                countdownElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function showMainLander() {
+            document.querySelector('.prelander').classList.remove('active');
+            document.querySelector('.mainlander').classList.add('active');
+            updateNotification();
+            setInterval(updateNotification, 4000);
+            startMainLanderTimer();
+        }
+
+        // Start prelander timer when page loads
+        startPrelanderTimer();
     </script>
 </body>
 </html>
-
-
-
-
-
