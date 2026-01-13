@@ -2,466 +2,481 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zelle Rewards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#6D1ED4">
+    <title>Zelle Transfer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #6D1ED4;
+            --secondary: #9747FF;
+            --accent: #FF3DFF;
+            --gradient: linear-gradient(135deg, #6D1ED4, #9747FF);
+            --card-bg: rgba(20, 20, 30, 0.95);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            --glow: 0 0 30px rgba(109, 30, 212, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         body {
-            background: #0a0a0f;
-            color: white;
+            background: #0A0A15;
             min-height: 100vh;
-            padding: 20px;
-        }
-
-        /* Prelander Styles */
-        .prelander {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .timer-box {
-            margin: 50px auto;
-            padding: 20px;
-        }
-
-        .timer-box .label {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: white;
-            font-weight: bold;
-        }
-
-        .timer-box .time {
-            font-size: 48px;
-            font-weight: bold;
-            color: #6d28d9;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px 50px;
-            border-radius: 30px;
-            display: inline-block;
-            margin-bottom: 40px;
-            box-shadow: 0 0 20px rgba(109, 40, 217, 0.3);
-        }
-
-        .device-select h1 {
-            font-size: 32px;
-            margin-bottom: 30px;
-            color: white;
-            line-height: 1.2;
-        }
-
-        .device-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .device-button {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #6d28d9;
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .device-button:hover {
-            background: rgba(109, 40, 217, 0.1);
-            transform: translateY(-2px);
-        }
-
-        /* Main Lander Styles */
-        .mainlander {
-            display: none;
-            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(109, 30, 212, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(255, 61, 255, 0.2) 0%, transparent 50%);
         }
 
         .container {
             max-width: 480px;
             margin: 0 auto;
+            padding: 30px 20px 100px;
         }
 
-        .notification {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: opacity 0.5s ease;
+        .header-card {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 40px 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            animation: fadeSlideUp 1s ease-out;
         }
 
-        .notification .money {
-            font-size: 20px;
-        }
-
-        .notification .earned {
-            color: #6d28d9;
-        }
-
-        .notification .time {
-            margin-left: auto;
-            color: rgba(255, 255, 255, 0.7);
+        .header-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateY(-100%);
+            animation: shimmer 3s infinite;
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
-            margin: 20px auto;
+            width: 180px;
+            height: auto;
             display: block;
+            margin: 0 auto 35px;
+            filter: drop-shadow(0 4px 10px rgba(109, 30, 212, 0.5));
+            animation: logoFloat 4s ease-in-out infinite;
         }
 
-        h1 {
+        .amount-wrapper {
+            position: relative;
+            margin: 30px 0;
             text-align: center;
-            font-size: 32px;
-            margin: 20px 0;
-            background: linear-gradient(135deg, #6d28d9, #9333ea);
+        }
+
+        .amount {
+            font-size: 84px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #9747FF);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: bold;
+            line-height: 1;
+            letter-spacing: -2px;
+            animation: glowPulse 2s infinite;
         }
 
-        .progress-bar {
-            height: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            margin: 30px 0;
+        .amount-label {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-top: 15px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 40px 0 20px;
+        }
+
+        .stat-box {
+            background: var(--glass-bg);
+            padding: 25px 20px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .progress-fill {
-            width: 80%;
-            height: 100%;
-            background: #6d28d9;
-            border-radius: 15px;
-        }
-
-        .progress-amount {
+        .stat-box::after {
+            content: '';
             position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-weight: bold;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
         }
 
-        .steps {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0;
+        .stat-box:hover::after {
+            left: 100%;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .steps-card {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 30px;
+            margin-top: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeSlideUp 1.2s ease-out;
         }
 
         .step {
             display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            padding: 15px 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            align-items: center;
+            padding: 25px;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .step:last-child {
-            border-bottom: none;
+        .step:hover {
+            transform: translateY(-3px);
+            background: rgba(109, 30, 212, 0.1);
         }
 
-        .step-check {
-            width: 24px;
-            height: 24px;
-            background: #6d28d9;
-            border-radius: 50%;
+        .step-number {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            flex-shrink: 0;
+            font-weight: 700;
+            margin-right: 20px;
+            box-shadow: var(--glow);
+            font-size: 20px;
         }
 
         .step-content h3 {
-            margin-bottom: 5px;
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 600;
         }
 
         .step-content p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
 
-        .bonus-box {
-            background: rgba(109, 40, 217, 0.1);
-            border: 1px solid #6d28d9;
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .bonus-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .limited-tag {
-            background: #6d28d9;
-            padding: 5px 10px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: auto;
-        }
-
-        .bonus-time {
-            color: #9333ea;
-            font-weight: bold;
-        }
-
-        .bonus-content {
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 15px;
-        }
-
-        .pro-tip {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-        }
-
-        .start-button {
-            background: #6d28d9;
+        .claim-btn {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient);
             color: white;
             border: none;
-            width: 100%;
-            padding: 20px;
-            border-radius: 15px;
+            padding: 20px 40px;
+            border-radius: 20px;
+            font-weight: 700;
             font-size: 18px;
-            font-weight: bold;
-            margin: 20px 0;
+            box-shadow: var(--glow);
+            max-width: calc(100% - 40px);
+            width: 480px;
             cursor: pointer;
             transition: all 0.3s ease;
-
-            display: block;
-text-decoration: none;
-text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .start-button:hover {
-            background: #9333ea;
+        .claim-btn:hover {
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 20px 40px rgba(109, 30, 212, 0.4);
         }
 
-        .secure-text {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 14px;
+        .notification {
+            position: fixed;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-150%);
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            width: calc(100% - 40px);
+            max-width: 420px;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .notification.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .notif-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            box-shadow: var(--glow);
+        }
+
+        .notification-text {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .users-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .pulse {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .pulse::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(4); opacity: 0; }
+        }
+
+        @keyframes fadeSlideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
         }
 
         @media (max-width: 480px) {
-            .notification {
-                flex-wrap: wrap;
-            }
-            
-            .notification .time {
-                margin-left: 0;
-                width: 100%;
-                text-align: right;
-            }
+            .amount { font-size: 64px; }
+            .logo { width: 150px; }
+            .step-content h3 { font-size: 18px; }
+            .step-content p { font-size: 14px; }
+            .claim-btn { font-size: 16px; padding: 18px 30px; }
         }
     </style>
 </head>
 <body>
-    <!-- Prelander Section -->
-    <div class="prelander">
-        <div class="timer-box">
-            <div class="label">OFFER EXPIRES</div>
-            <div class="time" id="prelander-timer">29:30</div>
+    <div class="container">
+        <div class="header-card">
+            <img src="https://i.imgur.com/9h5G06w.png" alt="Zelle" class="logo">
+            <div class="amount-wrapper">
+                <div class="amount" id="amount">$0.00</div>
+                <div class="amount-label">Available Balance</div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-value" id="timer">15:00</div>
+                    <div class="stat-label">Time Left</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">
+                        <div class="users-wrapper">
+                            <div class="pulse"></div>
+                            <span id="users">238</span>
+                        </div>
+                    </div>
+                    <div class="stat-label">Online Now</div>
+                </div>
+            </div>
         </div>
 
-        <div class="device-select">
-            <h1>SELECT YOUR DEVICE TO CONTINUE</h1>
-            <div class="device-buttons">
-                <button class="device-button" onclick="showMainLander()">iPhone / iOS</button>
-                <button class="device-button" onclick="showMainLander()">Android</button>
+        <div class="steps-card">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Quick Verification</h3>
+                    <p>Simple eligibility check for instant access</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Transfer Setup</h3>
+                    <p>Secure confirmation of transfer details</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Instant Access</h3>
+                    <p>Get your funds immediately after verification</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Lander Section -->
-    <div class="mainlander">
-        <div class="container">
-            <div class="notification" id="notification">
-                <span class="money">💰</span>
-                <span><span id="notif-name"></span> completed <span id="notif-deals"></span> deals and</span>
-                <span class="earned">earned $<span id="notif-amount"></span></span>
-                <span class="time">· <span id="notif-time"></span></span>
-            </div>
+    <button class="claim-btn" id="claimBtn">Access Funds →</button>
 
-            <img src="https://i.imgur.com/cxHhb1s.png" alt="Zelle" class="logo">
-
-            <h1>Get started below to claim your Zelle reward</h1>
-
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-                <div class="progress-amount">$750</div>
-            </div>
-
-            <div class="steps">
-                <div class="step">
-                    <div class="step-check">✓</div>
-                    <div class="step-content">
-                        <h3>Click on "Start Earning Now"</h3>
-                        <p>(The button below)</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-check">✓</div>
-                    <div class="step-content">
-                        <h3>Provide a valid email address</h3>
-                        <p>(For notifications and rewards)</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-check">✓</div>
-                    <div class="step-content">
-                        <h3>Complete at least 2-5 suggested deals</h3>
-                        <p>Most people get $500+ in Zelle deposits completing just a few deals!</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-check">✓</div>
-                    <div class="step-content">
-                        <h3>Claim your deposit & repeat anytime</h3>
-                        <p>Many top users complete multiple deals for bonus payouts</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bonus-box">
-                <div class="bonus-header">
-                    <span>⏰</span>
-                    <span class="bonus-time">Exclusive offer expires in <span id="countdown">10:00</span></span>
-                    <span class="limited-tag">🔥 LIMITED TIME</span>
-                </div>
-                <div class="bonus-content">
-                    🎯 First Day Bonus! Complete any 2-5 suggested deals in your first 24 hours and unlock up to a $300 Bonus!
-                </div>
-                <div class="pro-tip">
-                    💡 Pro strategy: Focus on beginner-friendly deals first. Most new players hit $250+ in their first day by completing suggested offers. Play daily to keep your streaks going to earn even more!
-                </div>
-            </div>
-
-<a href="https://gloffers.org/aff_c?offer_id=3734&aff_id=23122" class="start-button">
-    START EARNING NOW
-</a>
-
-            <div class="secure-text">🔒 Secure & Confidential</div>
-        </div>
+    <div class="notification" id="notification">
+        <div class="notif-icon">Z</div>
+        <div class="notification-text"><span id="notifName"></span> just received $750!</div>
     </div>
 
     <script>
-        // Timer functionality
-        function updateTimer() {
-            let minutes = 29;
-            let seconds = 30;
-            const timerElement = document.getElementById('prelander-timer');
+        // URL parameter passthrough function
+        const appendUrlParams = (baseUrl) => {
+            const params = window.location.search;
+            if (!params) return baseUrl;
+            return baseUrl.includes('?') 
+                ? baseUrl + params.replace('?', '&') 
+                : baseUrl + params;
+        };
+
+        const animateAmount = () => {
+            const el = document.getElementById('amount');
+            const final = 750;
+            const duration = 2000;
+            const steps = 60;
+            const increment = final / steps;
+            let current = 0;
+            let step = 0;
+
+            const interval = setInterval(() => {
+                step++;
+                current = Math.min(final, step * increment);
+                el.textContent = '$' + current.toFixed(2);
+                if (current >= final) clearInterval(interval);
+            }, duration / steps);
+        };
+
+        const startTimer = () => {
+            let time = 900;
+            const timerEl = document.getElementById('timer');
             
+            const interval = setInterval(() => {
+                time--;
+                const minutes = Math.floor(time / 60);
+                const seconds = time % 60;
+                timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                if (time <= 0) clearInterval(interval);
+            }, 1000);
+        };
+
+        const updateUsers = () => {
+            const el = document.getElementById('users');
             setInterval(() => {
-                if (seconds === 0) {
-                    if (minutes === 0) {
-                        timerElement.textContent = '00:00';
-                        return;
-                    }
-                    minutes--;
-                    seconds = 59;
-                } else {
-                    seconds--;
-                }
-                
-                const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
-                const displaySeconds = seconds < 10 ? '0' + seconds : seconds;
-                timerElement.textContent = `${displayMinutes}:${displaySeconds}`;
-            }, 1000);
-        }
+                const base = 238;
+                const variation = Math.floor(Math.random() * 15) - 5;
+                el.textContent = base + variation;
+            }, 2000);
+        };
 
-        // Notification functionality
         const names = [
-            "James", "Emma", "Michael", "Sophia", "William", "Olivia", "John", "Ava",
-            "David", "Isabella", "Richard", "Mia", "Joseph", "Charlotte", "Thomas"
+            'Michael S.', 'Sarah J.', 'David K.', 'Emily R.', 'Thomas M.',
+            'Jessica L.', 'Robert P.', 'Laura B.', 'William H.', 'Rachel N.',
+            'Christopher A.', 'Amanda W.', 'Daniel T.', 'Michelle C.', 'James D.'
         ];
+        
+        const showNotification = (name) => {
+            const notif = document.getElementById('notification');
+            document.getElementById('notifName').textContent = name;
+            notif.classList.add('show');
+            setTimeout(() => notif.classList.remove('show'), 3000);
+        };
 
-        function generateAmount() {
-            return (Math.random() * (750 - 500) + 500).toFixed(2);
-        }
+        const startNotifications = () => {
+            setInterval(() => {
+                const name = names[Math.floor(Math.random() * names.length)];
+                showNotification(name);
+            }, 4000);
+        };
 
-        function generateTime() {
-            const times = ["just now", "1 minute ago", "2 minutes ago", "3 minutes ago", "5 minutes ago"];
-            return times[Math.floor(Math.random() * times.length)];
-        }
-
-        function updateNotification() {
-            const notification = document.getElementById('notification');
-            notification.style.opacity = '0';
-
-            setTimeout(() => {
-                document.getElementById('notif-name').textContent = names[Math.floor(Math.random() * names.length)];
-                document.getElementById('notif-amount').textContent = generateAmount();
-                document.getElementById('notif-time').textContent = generateTime();
-                document.getElementById('notif-deals').textContent = Math.floor(Math.random() * 3) + 2;
-                notification.style.opacity = '1';
-            }, 500);
-        }
-
-        function startCountdown() {
-            let minutes = 10;
-            let seconds = 0;
+        document.addEventListener('DOMContentLoaded', () => {
+            animateAmount();
+            startTimer();
+            updateUsers();
+            startNotifications();
             
-            const countdownElement = document.getElementById('countdown');
-            
-            const timer = setInterval(() => {
-                if (seconds === 0) {
-                    if (minutes === 0) {
-                        clearInterval(timer);
-                        return;
-                    }
-                    minutes--;
-                    seconds = 59;
-                } else {
-                    seconds--;
-                }
-                
-                countdownElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            }, 1000);
-        }
-
-        function showMainLander() {
-            document.querySelector('.prelander').style.display = 'none';
-            document.querySelector('.mainlander').style.display = 'block';
-            window.scrollTo(0, 0);
-            updateNotification();
-            setInterval(updateNotification, 4000);
-            startCountdown();
-        }
-
-        // Start timer when page loads
-        window.onload = updateTimer;
+            document.getElementById('claimBtn').onclick = () => {
+                const baseUrl = 'https://gloffers.org/aff_c?offer_id=3734&aff_id=23122';
+                window.location.href = appendUrlParams(baseUrl);
+            };
+        });
     </script>
-    <script>document.addEventListener("DOMContentLoaded",(()=>{document.querySelectorAll("a").forEach((e=>{e.getAttribute("href")?.includes("#")||(e.getAttribute("href")?.includes("?")?e.setAttribute("href",e.getAttribute("href")+window.location.search.replace("?","&")):e.getAttribute("href")?e.setAttribute("href",e.getAttribute("href")+window.location.search):"")}))}));</script>
 </body>
 </html>
-
-
-
-
